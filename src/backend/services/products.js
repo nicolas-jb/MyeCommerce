@@ -220,7 +220,6 @@ export { Producto };
 /* -------------------------------------------------------------------------- */
 
 const contenedorProducto = new ContenedorProducto("productos");
-setTimeout(()=>{},1000)
 const productoEscuadra = new Producto(
   "Escuadra",
   "Es una escuadra",

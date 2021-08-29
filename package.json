@@ -4,7 +4,7 @@
   "description": "Final project of the backend programming course - coderhouse -> MyeCommerce",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "tests": "jest ./tests/",
     "server": "nodemon --inspect ./src/backend/server"
   },
   "repository": {
@@ -25,7 +25,9 @@
   "devDependencies": {
     "babel-jest": "^27.1.0",
     "eslint": "^7.32.0",
+    "jest": "^27.1.0",
     "nodemon": "^2.0.12"
   },
   "type": "module"
+  
 }
