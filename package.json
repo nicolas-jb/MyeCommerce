@@ -1,0 +1,31 @@
+{
+  "name": "myecommerce",
+  "version": "1.0.0",
+  "description": "Final project of the backend programming course - coderhouse -> MyeCommerce",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon --inspect ./src/backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolas-jb/MyeCommerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolas-jb/MyeCommerce/issues"
+  },
+  "homepage": "https://github.com/nicolas-jb/MyeCommerce#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-emoji": "^1.11.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^27.1.0",
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.12"
+  },
+  "type": "module"
+}
