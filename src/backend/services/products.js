@@ -8,7 +8,7 @@ class Contenedor {
   maxIdSaved = 0;
   constructor(nombreArchivo) {
     this.ruta =
-      path.join(__dirname, "../", "/persistence") + `/${nombreArchivo}.txt`;
+      path.join(__dirname, "../", "/persistence") + `/${nombreArchivo}.json`;
   }
   async getAll() {
     try {
@@ -135,24 +135,6 @@ class Contenedor {
   }
 }
 
-class Producto {
-  constructor(nombre, descripcion, codigo, foto, precio, stock) {
-    this.timestamp = Date.now();
-    this.nombre = nombre;
-    this.descripcion = descripcion;
-    this.codigo = codigo;
-    this.foto = foto;
-    this.precio = precio;
-    this.stock = stock;
-  }
-}
-
-class Carrito {
-  constructor(productos) {
-    this.timestamp = Date.now();
-    this.productos = productos;
-  }
-}
 
 class ContenedorProducto extends Contenedor {
   async save(product) {
@@ -207,6 +189,26 @@ class ContenedorCarrito extends Contenedor {
   }
 }
 
+class Producto {
+  constructor(nombre, descripcion, codigo, foto, precio, stock) {
+    this.timestamp = Date.now();
+    this.nombre = nombre;
+    this.descripcion = descripcion;
+    this.codigo = codigo;
+    this.foto = foto;
+    this.precio = precio;
+    this.stock = stock;
+  }
+}
+
+class Carrito {
+  constructor(productos) {
+    this.timestamp = Date.now();
+    this.productos = productos;
+  }
+}
+
+
 export { Contenedor };
 export { ContenedorCarrito };
 export { ContenedorProducto };
@@ -217,7 +219,8 @@ export { Producto };
 /*                                  SET TEST                                  */
 /* -------------------------------------------------------------------------- */
 
-/*const contenedorProducto = new ContenedorProducto("productos");
+const contenedorProducto = new ContenedorProducto("productos");
+setTimeout(()=>{},1000)
 const productoEscuadra = new Producto(
   "Escuadra",
   "Es una escuadra",
@@ -296,4 +299,4 @@ async function test() {
   await testProducto();
 }
 
-test(); */
+test(); 
