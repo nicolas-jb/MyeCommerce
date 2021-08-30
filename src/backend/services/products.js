@@ -182,6 +182,20 @@ class ContenedorCarrito extends Contenedor {
     };
     return await super.modify(id);
   }
+
+  async getProducts(idCarrito) {
+    const carritoById = await this.getById(idCarrito);
+    return await carritoById.productos;
+  }
+
+  async deleteProducts(idCarrito) {
+    const carritoById = await this.getById(idCarrito);
+    this.newElement = {
+      timestamp: carritoById.timestamp,
+      productos: [],
+    };
+    return await super.modify(idCarrito);
+  }
 }
 
 class Producto {

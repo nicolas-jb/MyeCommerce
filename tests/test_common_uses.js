@@ -6,8 +6,8 @@ import { ContenedorProducto } from "../src/backend/services/products.js";
 import { Carrito } from "../src/backend/services/products.js";
 import { Producto } from "../src/backend/services/products.js";
 
-const contenedorProducto = new ContenedorProducto("./src/backend/persistence/productos_test.json");
-const contenedorCarrito = new ContenedorCarrito("./src/backend/persistence/carritos_test.json");
+const contenedorProducto = new ContenedorProducto("./src/backend/persistence/persistence_test/productos_test.json");
+const contenedorCarrito = new ContenedorCarrito("./src/backend/persistence/persistence_test/carritos_test.json");
 
 const productoEscuadra = new Producto(
   "Escuadra",
@@ -86,7 +86,7 @@ async function testProducto() {
 
 async function validateCarrito() {
   await testCarrito();
-  const carritoToCompare = new ContenedorCarrito("./src/backend/persistence/carritos_test_to_compare.json");
+  const carritoToCompare = new ContenedorCarrito("./src/backend/persistence/persistence_test/carritos_test_to_compare.json");
   const validLecture = await carritoToCompare.getAll();
   const lecturaTest = await contenedorCarrito.getAll();
   await validateRead(validLecture, lecturaTest);
@@ -94,7 +94,7 @@ async function validateCarrito() {
 
 async function validateProducto() {
   await testProducto();
-  const productoToCompare = new ContenedorProducto("./src/backend/persistence/productos_test_to_compare.json");
+  const productoToCompare = new ContenedorProducto("./src/backend/persistence/persistence_test/productos_test_to_compare.json");
   const validLecture = await productoToCompare.getAll();
   const lecturaTest = await contenedorProducto.getAll();
   await validateRead(validLecture, lecturaTest);
