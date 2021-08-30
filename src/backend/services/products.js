@@ -1,15 +1,12 @@
 import { promises } from "fs";
-import path from "path";
-
-const moduleURL = new URL(import.meta.url);
-const __dirname = path.dirname(moduleURL.pathname);
 
 class Contenedor {
   maxIdSaved = 0;
-  constructor(nombreArchivo) {
-    this.ruta =
-      path.join(__dirname, "../", "/persistence") + `/${nombreArchivo}.json`;
+
+  constructor(ruta) {
+    this.ruta = ruta;
   }
+
   async getAll() {
     try {
       const savedElements = await promises.readFile(this.ruta, "utf-8");
@@ -85,6 +82,7 @@ class Contenedor {
           this.ruta,
           JSON.stringify(savedElements, null, 2)
         );
+        return true;
       }
     } catch (e) {
       return null;
@@ -135,7 +133,6 @@ class Contenedor {
   }
 }
 
-
 class ContenedorProducto extends Contenedor {
   async save(product) {
     this.newElement = {
@@ -163,8 +160,7 @@ class ContenedorProducto extends Contenedor {
       stock: product.stock,
     };
 
-    await super.modify(id);
-    return true;
+    return await super.modify(id);
   }
 }
 
@@ -184,8 +180,7 @@ class ContenedorCarrito extends Contenedor {
       timestamp: carrito.timestamp,
       productos: carrito.productos,
     };
-    await super.modify(id);
-    return true;
+    return await super.modify(id);
   }
 }
 
@@ -208,94 +203,8 @@ class Carrito {
   }
 }
 
-
 export { Contenedor };
 export { ContenedorCarrito };
 export { ContenedorProducto };
 export { Carrito };
 export { Producto };
-
-/* -------------------------------------------------------------------------- */
-/*                                  SET TEST                                  */
-/* -------------------------------------------------------------------------- */
-
-const contenedorProducto = new ContenedorProducto("productos");
-const productoEscuadra = new Producto(
-  "Escuadra",
-  "Es una escuadra",
-  1102,
-  "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
-  123.45,
-  2
-);
-const productoCalculadora = new Producto(
-  "Calculadora",
-  "Es una calculadora",
-  209,
-  "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
-  234.56,
-  100
-);
-
-const contenedorCarrito = new ContenedorCarrito("carritos");
-const carrito1 = new Carrito([productoEscuadra, productoCalculadora]);
-const carrito2 = new Carrito([
-  productoEscuadra,
-  productoCalculadora,
-  productoEscuadra,
-]);
-
-async function testCarrito() {
-  await contenedorCarrito.deleteAll();
-  console.log(await contenedorCarrito.getAll());
-  console.log(await contenedorCarrito.save(carrito1));
-  console.log(await contenedorCarrito.save(carrito2));
-  console.log(await contenedorCarrito.save(carrito1));
-  console.log(await contenedorCarrito.getAll());
-  console.log(await contenedorCarrito.getById(2));
-  console.log(await contenedorCarrito.getById(10)); // testeo un id que no está
-  await contenedorCarrito.deleteAll();
-  console.log(await contenedorCarrito.getAll());
-  console.log(await contenedorCarrito.save(carrito1));
-  console.log(await contenedorCarrito.save(carrito2));
-  console.log(await contenedorCarrito.getAll());
-  await contenedorCarrito.deleteById(4);
-  console.log(await contenedorCarrito.getAll());
-  console.log(await contenedorCarrito.save(carrito1));
-  console.log(await contenedorCarrito.save(carrito2));
-  console.log(await contenedorCarrito.getByPosition(2));
-  console.log(await contenedorCarrito.getByPosition(4));
-  console.log(await contenedorCarrito.modify(7, carrito1));
-  console.log(await contenedorCarrito.getAll());
-}
-
-async function testProducto() {
-  await contenedorProducto.deleteAll();
-  console.log(await contenedorProducto.getAll());
-  console.log(await contenedorProducto.save(productoEscuadra));
-  console.log(await contenedorProducto.save(productoCalculadora));
-  console.log(await contenedorProducto.save(productoEscuadra));
-  console.log(await contenedorProducto.getAll());
-  console.log(await contenedorProducto.getById(2));
-  console.log(await contenedorProducto.getById(10)); // testeo un id que no está
-  await contenedorProducto.deleteAll();
-  console.log(await contenedorProducto.getAll());
-  console.log(await contenedorProducto.save(productoEscuadra));
-  console.log(await contenedorProducto.save(productoCalculadora));
-  console.log(await contenedorProducto.getAll());
-  await contenedorProducto.deleteById(4);
-  console.log(await contenedorProducto.getAll());
-  console.log(await contenedorProducto.save(productoEscuadra));
-  console.log(await contenedorProducto.save(productoCalculadora));
-  console.log(await contenedorProducto.getByPosition(2));
-  console.log(await contenedorProducto.getByPosition(4));
-  console.log(await contenedorProducto.modify(7, productoEscuadra));
-  console.log(await contenedorProducto.getAll());
-}
-
-async function test() {
-  await testCarrito();
-  await testProducto();
-}
-
-test(); 

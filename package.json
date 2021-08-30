@@ -4,7 +4,7 @@
   "description": "Final project of the backend programming course - coderhouse -> MyeCommerce",
   "main": "index.js",
   "scripts": {
-    "tests": "jest ./tests/",
+    "tests": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon --inspect ./src/backend/server"
   },
   "repository": {
