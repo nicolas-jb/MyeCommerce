@@ -16,6 +16,7 @@ const productoEscuadra = new Producto(
   123.45,
   2
 );
+
 const productoCalculadora = new Producto(
   "Calculadora",
   "Es una calculadora",
@@ -25,7 +26,13 @@ const productoCalculadora = new Producto(
   100
 );
 
-const carrito1 = new Carrito([productoEscuadra, productoCalculadora]);
+productoEscuadra.id = 1;
+productoEscuadra.timestamp = 1;
+productoCalculadora.id = 2;
+productoCalculadora.timestamp = 2;
+
+
+const carrito1 = new Carrito();
 
 async function config() {
   await contenedorCarrito.deleteAll();
@@ -43,7 +50,7 @@ async function validateProductsCart(id) {
     productoCalculadora,
   ]);
   const products = await contenedorCarrito.getProducts(id);
-  if (products.length === 6) {
+  if (products.length === 4) {
     console.log("Test Passed");
   } else {
     console.error("Test Failed");

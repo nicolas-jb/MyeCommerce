@@ -1,7 +1,7 @@
 import express, { json, urlencoded } from "express";
 import emoji from "node-emoji";
-import { routerProductos } from "../backend/router/routes.js";
-import { routerCarrito } from "../backend/router/routes.js";
+import { routerProductos } from "../backend/router/routes_products.js";
+import { routerCarrito } from "../backend/router/routes_carts.js";
 
 const app = express();
 

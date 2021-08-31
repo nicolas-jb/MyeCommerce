@@ -185,23 +185,34 @@ class ContenedorCarrito extends Contenedor {
 
   async getProducts(idCarrito) {
     const carritoById = await this.getById(idCarrito);
-    return await carritoById.productos;
+    if (carritoById === null) {
+      return null;
+    }
+    return carritoById.productos;
   }
 
   async deleteProducts(idCarrito) {
     const carritoById = await this.getById(idCarrito);
+    if (carritoById === null) {
+      return null;
+    }
+    carritoById.productos = [];
     this.newElement = {
       timestamp: carritoById.timestamp,
-      productos: [],
+      productos: carritoById.productos,
     };
     return await super.modify(idCarrito);
   }
 
   async addProducts(idCarrito, productos) {
     const carritoById = await this.getById(idCarrito);
+    if (carritoById == null) {
+      return null;
+    }
+    carritoById.productos = carritoById.productos.concat(productos);
     this.newElement = {
       timestamp: carritoById.timestamp,
-      productos:  carritoById.productos.concat(productos),
+      productos: carritoById.productos,
     };
     return await super.modify(idCarrito);
   }
@@ -220,9 +231,28 @@ class Producto {
 }
 
 class Carrito {
-  constructor(productos) {
+  constructor() {
     this.timestamp = Date.now();
-    this.productos = productos;
+    this.productos = [];
+  }
+
+  addProducts(products) {
+    this.productos = this.productos.concat(products);
+  }
+
+  deleteProducts() {
+    this.productos = [];
+  }
+
+  deleteAProduct(id) {
+    const actualProducts = this.productos.filter(function (pid) {
+      return pid.id != id;
+    });
+    this.productos = actualProducts;
+  }
+
+  getProducts() {
+    return this.productos;
   }
 }
 

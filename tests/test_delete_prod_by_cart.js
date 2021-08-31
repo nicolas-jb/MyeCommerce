@@ -25,14 +25,22 @@ const productoCalculadora = new Producto(
   100
 );
 
-const carrito1 = new Carrito([productoEscuadra, productoCalculadora]);
-const carrito2 = new Carrito([
-  productoEscuadra,
-  productoCalculadora,
-  productoEscuadra,
-]);
+productoEscuadra.id = 1;
+productoEscuadra.timestamp = 1;
+productoCalculadora.id = 2;
+productoCalculadora.timestamp = 2;
+
+const carrito1 = new Carrito();
+const carrito2 = new Carrito();
 
 async function config() {
+  await contenedorCarrito.deleteAll();
+  carrito1.addProducts([productoCalculadora, productoEscuadra]);
+  carrito2.addProducts(productoEscuadra, [
+    productoCalculadora,
+    productoEscuadra,
+  ]);
+
   await contenedorCarrito.save(carrito1);
   await contenedorCarrito.save(carrito2);
 }

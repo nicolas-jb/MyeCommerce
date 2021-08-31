@@ -25,14 +25,23 @@ const productoCalculadora = new Producto(
   100
 );
 
-const carrito1 = new Carrito([productoEscuadra, productoCalculadora]);
-const carrito2 = new Carrito([
-  productoEscuadra,
-  productoCalculadora,
-  productoEscuadra,
-]);
+productoEscuadra.id = 1;
+productoEscuadra.timestamp = 1;
+productoCalculadora.id = 2;
+productoCalculadora.timestamp = 2;
+
+const carrito1 = new Carrito();
+const carrito2 = new Carrito();
 
 async function config() {
+  await contenedorCarrito.deleteAll();
+  carrito1.addProducts([productoCalculadora, productoEscuadra]);
+  carrito2.addProducts([productoEscuadra, 
+    productoCalculadora,
+    productoEscuadra,
+  ]);
+
+  
   await contenedorCarrito.save(carrito1);
   await contenedorCarrito.save(carrito2);
 }
@@ -47,8 +56,8 @@ async function getProductosByCart(id) {
 async function validateProductsCart1() {
   const productos1 = await getProductosByCart(1);
   if (
-    productos1[0].nombre == "Escuadra" &&
-    productos1[1].nombre == "Calculadora"
+    productos1[0].nombre == "Calculadora" &&
+    productos1[1].nombre == "Escuadra"
   ) {
     console.log("Test Passed");
   } else {

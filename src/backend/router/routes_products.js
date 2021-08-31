@@ -1,14 +1,11 @@
 import { Router } from "express";
-//import { ContenedorCarrito } from "../src/backend/services/products.js";
 import { ContenedorProducto } from "../services/products.js";
 
 const routerProductos = new Router();
-const routerCarrito = new Router();
 
 const contenedorProducto = new ContenedorProducto(
   "./src/backend/persistence/productos.json"
 );
-//const contenedorCarrito = new ContenedorCarrito("./src/backend/persistence/carritos.json");
 
 function errorAuth(ruta, method) {
   return {
@@ -32,7 +29,7 @@ routerProductos.get("/", async (req, res) => {
   if (id === null || id === undefined) {
     const productos = await contenedorProducto.getAll();
     res.status(200).json(productos);
-  }else {
+  } else {
     res.status(302).redirect(req.baseUrl + `/${id}`);
   }
 });
@@ -80,9 +77,4 @@ routerProductos.delete("/:id", async (req, res) => {
   }
 });
 
-routerCarrito.get("/", (req, res) => {
-  res.send("ok Carrito");
-});
-
-export { routerCarrito };
 export { routerProductos };

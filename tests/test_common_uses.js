@@ -6,8 +6,12 @@ import { ContenedorProducto } from "../src/backend/services/products.js";
 import { Carrito } from "../src/backend/services/products.js";
 import { Producto } from "../src/backend/services/products.js";
 
-const contenedorProducto = new ContenedorProducto("./src/backend/persistence/persistence_test/productos_test.json");
-const contenedorCarrito = new ContenedorCarrito("./src/backend/persistence/persistence_test/carritos_test.json");
+const contenedorProducto = new ContenedorProducto(
+  "./src/backend/persistence/persistence_test/productos_test.json"
+);
+const contenedorCarrito = new ContenedorCarrito(
+  "./src/backend/persistence/persistence_test/carritos_test.json"
+);
 
 const productoEscuadra = new Producto(
   "Escuadra",
@@ -26,39 +30,11 @@ const productoCalculadora = new Producto(
   100
 );
 
-const carrito1 = new Carrito([productoEscuadra, productoCalculadora]);
-const carrito2 = new Carrito([
-  productoEscuadra,
-  productoCalculadora,
-  productoEscuadra,
-]);
+const carrito1 = new Carrito();
+const carrito2 = new Carrito();
 
 /* -------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-
-async function testCarrito() {
-  await contenedorCarrito.deleteAll();
-  await contenedorCarrito.getAll();
-  await contenedorCarrito.save(carrito1);
-  await contenedorCarrito.save(carrito2);
-  await contenedorCarrito.save(carrito1);
-  await contenedorCarrito.getAll();
-  await contenedorCarrito.getById(2);
-  await contenedorCarrito.getById(10); // testeo un id que no está
-  await contenedorCarrito.deleteAll();
-  await contenedorCarrito.getAll();
-  await contenedorCarrito.save(carrito1);
-  await contenedorCarrito.save(carrito2);
-  await contenedorCarrito.getAll();
-  await contenedorCarrito.deleteById(4);
-  await contenedorCarrito.getAll();
-  await contenedorCarrito.save(carrito1);
-  await contenedorCarrito.save(carrito2);
-  await contenedorCarrito.getByPosition(2);
-  await contenedorCarrito.getByPosition(4);
-  await contenedorCarrito.modify(7, carrito1);
-  await contenedorCarrito.getAll();
-}
 
 async function testProducto() {
   await contenedorProducto.deleteAll();
@@ -84,9 +60,46 @@ async function testProducto() {
   await contenedorProducto.getAll();
 }
 
+async function testCarrito() {
+  const pEs6 = await contenedorProducto.getById(6);
+  const pEs7 = await contenedorProducto.getById(7);
+  const pCalc = await contenedorProducto.getById(5);
+
+  await contenedorCarrito.deleteAll();
+  await contenedorCarrito.save(carrito1);
+  await contenedorCarrito.save(carrito2);
+  await contenedorCarrito.addProducts(1, [
+    await contenedorProducto.getByPosition(0),
+    await contenedorProducto.getByPosition(2),
+  ]);
+  await contenedorCarrito.addProducts(2, [pEs6, pCalc, pEs7]);
+  await contenedorCarrito.getAll();
+  await contenedorCarrito.getById(2);
+  await contenedorCarrito.getById(10); // testeo un id que no está
+  await contenedorCarrito.deleteAll();
+  await contenedorCarrito.getAll();
+  await contenedorCarrito.save(carrito1);
+  await contenedorCarrito.save(carrito2);
+
+  await contenedorCarrito.addProducts(3, [
+    await contenedorProducto.getByPosition(0),
+    await contenedorProducto.getByPosition(2),
+  ]);
+  await contenedorCarrito.getAll();
+  await contenedorCarrito.deleteById(4);
+  await contenedorCarrito.getAll();
+  await contenedorCarrito.getByPosition(0);
+  await contenedorCarrito.getByPosition(4);
+  await contenedorCarrito.modify(3, carrito1);
+  await contenedorCarrito.addProducts(3, [pEs6, pCalc, pEs7]);
+  await contenedorCarrito.getAll();
+}
+
 async function validateCarrito() {
   await testCarrito();
-  const carritoToCompare = new ContenedorCarrito("./src/backend/persistence/persistence_test/carritos_test_to_compare.json");
+  const carritoToCompare = new ContenedorCarrito(
+    "./src/backend/persistence/persistence_test/carritos_test_to_compare.json"
+  );
   const validLecture = await carritoToCompare.getAll();
   const lecturaTest = await contenedorCarrito.getAll();
   await validateRead(validLecture, lecturaTest);
@@ -94,7 +107,9 @@ async function validateCarrito() {
 
 async function validateProducto() {
   await testProducto();
-  const productoToCompare = new ContenedorProducto("./src/backend/persistence/persistence_test/productos_test_to_compare.json");
+  const productoToCompare = new ContenedorProducto(
+    "./src/backend/persistence/persistence_test/productos_test_to_compare.json"
+  );
   const validLecture = await productoToCompare.getAll();
   const lecturaTest = await contenedorProducto.getAll();
   await validateRead(validLecture, lecturaTest);
@@ -108,5 +123,9 @@ async function validateRead(obj1, obj2) {
   }
 }
 
-validateCarrito();
-validateProducto();
+async function test() {
+  await validateProducto();
+  await validateCarrito();
+}
+
+test();
