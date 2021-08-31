@@ -133,6 +133,8 @@ class Contenedor {
   }
 }
 
+/* -------------------------------------------------------------------------- */
+
 class ContenedorProducto extends Contenedor {
   async save(product) {
     this.newElement = {
@@ -163,6 +165,8 @@ class ContenedorProducto extends Contenedor {
     return await super.modify(id);
   }
 }
+
+/* -------------------------------------------------------------------------- */
 
 class ContenedorCarrito extends Contenedor {
   async save(carrito) {
@@ -216,7 +220,25 @@ class ContenedorCarrito extends Contenedor {
     };
     return await super.modify(idCarrito);
   }
+
+  async deleteAProduct(idCarrito, idProducto) {
+    const carritoById = await this.getById(idCarrito);
+    if (carritoById == null) {
+      return null;
+    }
+    const actualProducts = carritoById.productos.filter(function (pid) {
+      return pid.id != idProducto;
+    });
+    this.newElement = {
+      timestamp: carritoById.timestamp,
+      productos: actualProducts,
+    };
+
+    return await super.modify(idCarrito);
+  }
 }
+
+/* -------------------------------------------------------------------------- */
 
 class Producto {
   constructor(nombre, descripcion, codigo, foto, precio, stock) {
@@ -229,6 +251,8 @@ class Producto {
     this.stock = stock;
   }
 }
+
+/* -------------------------------------------------------------------------- */
 
 class Carrito {
   constructor() {

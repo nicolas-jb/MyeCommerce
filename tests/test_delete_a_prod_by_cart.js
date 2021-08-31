@@ -5,7 +5,7 @@ import { Carrito } from "../src/backend/services/products.js";
 import { Producto } from "../src/backend/services/products.js";
 
 const contenedorCarrito = new ContenedorCarrito(
-  "./src/backend/persistence/persistence_test/carritos_test_3.json"
+  "./src/backend/persistence/persistence_test/carritos_test_5.json"
 );
 
 const productoEscuadra = new Producto(
@@ -49,12 +49,23 @@ async function config() {
 /* -------------------------------------------------------------------------- */
 
 async function validateProductsCart(id) {
-  await contenedorCarrito.deleteProducts(id);
-  const products = await contenedorCarrito.getProducts(id);
-  if (products.length === 0) {
-    console.log("Test Passed");
-  } else {
-    console.error("Test Failed");
+  if (id == 1) {
+    await contenedorCarrito.deleteAProduct(id, 1);
+    const products = await contenedorCarrito.getProducts(id);
+
+    if (products.length == 1) {
+      console.log("Test Passed");
+    } else {
+      console.error("Test Failed");
+    }
+  }else {
+    await contenedorCarrito.deleteAProduct(id, 2);
+    const products = await contenedorCarrito.getProducts(id);
+    if (products.length == 2) {
+      console.log("Test Passed");
+    } else {
+      console.error("Test Failed");
+    }
   }
 }
 
