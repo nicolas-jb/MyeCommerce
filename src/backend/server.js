@@ -11,7 +11,7 @@ app.use(urlencoded({ extended: true }));
 app.use("/api/productos", routerProductos);
 app.use("/api/carrito", routerCarrito);
 
-const PORT = 8080;
+export const PORT = 8080;
 
 app.use((req, res) => {
   res.status(404).json({

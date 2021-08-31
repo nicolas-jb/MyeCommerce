@@ -229,6 +229,11 @@ class ContenedorCarrito extends Contenedor {
     const actualProducts = carritoById.productos.filter(function (pid) {
       return pid.id != idProducto;
     });
+
+    if (actualProducts.length == carritoById.productos.length) {
+      return null
+    }
+
     this.newElement = {
       timestamp: carritoById.timestamp,
       productos: actualProducts,

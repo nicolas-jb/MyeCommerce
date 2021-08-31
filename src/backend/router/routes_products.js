@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ContenedorProducto } from "../services/products.js";
+import { Producto } from "..//services/products.js";
 
 const routerProductos = new Router();
 
@@ -35,8 +36,10 @@ routerProductos.get("/", async (req, res) => {
 });
 
 routerProductos.post("/", async (req, res) => {
-  const producto = req.body;
-  if (producto.user === "admin") {
+  const {nombre, descripcion, codigo, foto, precio, stock} = req.body;
+  const producto = new Producto(nombre, descripcion, codigo, foto, precio, stock);
+  const {user} = req.body;
+  if (user === "admin") {
     const id = await contenedorProducto.save(producto);
     res.status(200).send(`Se agregó un nuevo producto cuyo id es ${id}`);
   } else {

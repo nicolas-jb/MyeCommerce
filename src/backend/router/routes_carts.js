@@ -1,5 +1,7 @@
 import { Router } from "express";
-import { ContenedorCarrito } from "../src/backend/services/products.js";
+import { ContenedorCarrito } from "../services/products.js";
+import { Carrito } from "../services/products.js";
+import fetch from "node-fetch";
 
 const routerCarrito = new Router();
 
@@ -7,10 +9,10 @@ const contenedorCarrito = new ContenedorCarrito(
   "./src/backend/persistence/carritos.json"
 );
 
-contenedorCarrito.get("/:id/productos", async (req, res) => {
-  const id = req.params.id;
-  const carrito = contenedorCarrito.getById(id);
-  const productos = await contenedorCarrito.getProducts(id);
+routerCarrito.get("/:id/productos", async (req, res) => {
+  const idCarrito = req.params.id;
+  const carrito = await contenedorCarrito.getById(idCarrito);
+  const productos = await contenedorCarrito.getProducts(idCarrito);
   if (carrito === undefined || carrito === null) {
     res.status(404).json({ error: "Carrito not found" });
   } else {
@@ -19,22 +21,31 @@ contenedorCarrito.get("/:id/productos", async (req, res) => {
 });
 
 routerCarrito.post("/", async (req, res) => {
-  const carrito = req.body;
+  const carrito = new Carrito();
   const id = await contenedorCarrito.save(carrito);
   res.status(200).send(`Se agregó un nuevo carrito cuyo id es ${id}`);
 });
 
-routerCarrito.post("/:id/productos", async (req, res) => {
-  const id = req.params.id;
-  const carrito = contenedorCarrito.getById(id);
-  const productos = req.body;
+routerCarrito.post("/:idCarrito/productos/:idProducto", async (req, res) => {
+  const idCarrito = req.params.idCarrito;
+  const idProducto = req.params.idProducto;
+  const carrito = await contenedorCarrito.getById(idCarrito);
+  let producto = await fetch(
+    `http://localhost:8080/api/productos/${idProducto}`,
+    {
+      method: "GET",
+    }
+  ).then((res) => res.json());
+
   if (carrito === undefined || carrito === null) {
     res.status(404).json({ error: "Carrito not found" });
+  } else if (producto === undefined || producto === null || producto.error != null) {
+    res.status(404).json({ error: "Producto not found" });
   } else {
-    await contenedorCarrito.addProducts(id, productos);
+    await contenedorCarrito.addProducts(idCarrito, producto);
     res
       .status(200)
-      .send(`Se agregaron los productos al carrito cuyo id es ${id}`);
+      .send(`Se agregó el producto cuyo id es ${idProducto} al carrito cuyo id es ${idCarrito}`);
   }
 });
 
@@ -44,6 +55,22 @@ routerCarrito.delete("/:id", async (req, res) => {
     res.status(200).send(`El carrito cuyo id era ${req.params.id} fue borrado`);
   } else {
     res.status(404).json({ error: "Carrito no encontrado" });
+  }
+});
+
+routerCarrito.delete("/:idCarrito/productos/:idProducto", async (req, res) => {
+  const idCarrito = req.params.idCarrito;
+  const idProducto = Number(req.params.idProducto);
+  const carrito = await contenedorCarrito.getById(idCarrito);
+  const flagDelete = await contenedorCarrito.deleteAProduct(idCarrito, idProducto);
+  if (carrito === undefined || carrito === null) {
+    res.status(404).json({ error: "Carrito not found" });
+  } else if (flagDelete === undefined || flagDelete === null) {
+    res.status(404).json({ error: "Producto not found" });
+  } else {
+    res
+      .status(200)
+      .send(`Se borró el producto cuyo id era ${idProducto} del carrito cuyo id es ${idCarrito}`);
   }
 });
 

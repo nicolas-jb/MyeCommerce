@@ -20,7 +20,8 @@
   "homepage": "https://github.com/nicolas-jb/MyeCommerce#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "node-emoji": "^1.11.0"
+    "node-emoji": "^1.11.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "babel-jest": "^27.1.0",
@@ -29,5 +30,4 @@
     "nodemon": "^2.0.12"
   },
   "type": "module"
-  
 }
