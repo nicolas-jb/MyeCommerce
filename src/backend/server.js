@@ -11,9 +11,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+
+//instance variables
 let contenedorCarrito;
 let contenedorProducto;
+let contenedorCarritoFS;
+let contenedorProductoFS;
+let contenedorCarritoActualizado
+let contenedorProductoActualizado
 
+
+let flagFS = true;
+
+//persistence's modes
 const persistenceModes = {
   modes: {
     1: "FS",
@@ -26,16 +36,25 @@ const persistenceModes = {
 };
 
 function setPersistenceMode(mode) {
+  
   switch (mode) {
     case 1: {
-      contenedorCarrito = new ContenedorCarrito(
-        path.join(__dirname, "./persistence/persistence_FS/carritos.json")
-      );
-      contenedorProducto = new ContenedorProducto(
-        path.join(__dirname, "./persistence/persistence_FS/productos.json")
-      );
+      if (flagFS) {
+        flagFS = false;
+        contenedorCarritoFS = new ContenedorCarrito(
+          path.join(__dirname, "./persistence/persistence_FS/carritos.json")
+        );
+        contenedorProductoFS = new ContenedorProducto(
+          path.join(__dirname, "./persistence/persistence_FS/productos.json")
+        );
+      }
+      contenedorCarritoActualizado = contenedorCarritoFS;
+      contenedorProductoActualizado = contenedorProductoFS;
     }
   }
+
+  contenedorCarrito = contenedorCarritoActualizado;
+  contenedorProducto = contenedorProductoActualizado;
 }
 
 //set default persistence mode
