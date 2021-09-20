@@ -11,7 +11,7 @@ const __dirname = dirname(__filename);
 const routerCarrito = new Router();
 
 const contenedorCarrito = new ContenedorCarrito(
-  path.join(__dirname, "../persistence/carritos.json")
+  path.join(__dirname, "../persistence/persistence_FS/carritos.json")
 );
 
 routerCarrito.get("/:id/productos", async (req, res) => {

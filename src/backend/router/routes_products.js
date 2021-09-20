@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 const routerProductos = new Router();
 
 const contenedorProducto = new ContenedorProducto(
-  path.join(__dirname, "../persistence/productos.json")
+  path.join(__dirname, "../persistence/persistence_FS/productos.json")
 );
 
 function errorAuth(ruta, method) {
