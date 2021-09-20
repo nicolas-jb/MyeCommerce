@@ -1,17 +1,8 @@
 import { Router } from "express";
-import { ContenedorProducto } from "../services/FS/contenedorFS.js";
 import { Producto } from "../services/producto.js";
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {contenedorProducto} from "../../backend/server.js"
 
 const routerProductos = new Router();
-
-const contenedorProducto = new ContenedorProducto(
-  path.join(__dirname, "../persistence/persistence_FS/productos.json")
-);
 
 function errorAuth(ruta, method) {
   return {
