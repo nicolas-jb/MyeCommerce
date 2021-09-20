@@ -1,16 +1,26 @@
 //This script is not a test itself but it serves as a first look to validate the operation
 
-//import { Contenedor } from "../src/backend/services/products.js";
-import { ContenedorCarrito } from "../src/backend/services/products.js";
-import { ContenedorProducto } from "../src/backend/services/products.js";
-import { Carrito } from "../src/backend/services/products.js";
-import { Producto } from "../src/backend/services/products.js";
+import { ContenedorCarrito } from "../src/backend/services/FS/contenedorFS.js";
+import { ContenedorProducto } from "../src/backend/services/FS/contenedorFS.js";
+import { Carrito } from "../src/backend/services/carrito.js";
+import { Producto } from "../src/backend/services/producto.js";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const contenedorProducto = new ContenedorProducto(
-  "./src/backend/persistence/persistence_test/productos_test.json"
+  path.join(
+    __dirname,
+    "../src/backend/persistence/persistence_test/productos_test.json"
+  )
 );
 const contenedorCarrito = new ContenedorCarrito(
-  "./src/backend/persistence/persistence_test/carritos_test.json"
+  path.join(
+    __dirname,
+    "../src/backend/persistence/persistence_test/carritos_test.json"
+  )
 );
 
 const productoEscuadra = new Producto(
@@ -98,7 +108,10 @@ async function testCarrito() {
 async function validateCarrito() {
   await testCarrito();
   const carritoToCompare = new ContenedorCarrito(
-    "./src/backend/persistence/persistence_test/carritos_test_to_compare.json"
+    path.join(
+      __dirname,
+      "../src/backend/persistence/persistence_test/carritos_test_to_compare.json"
+    )
   );
   const validLecture = await carritoToCompare.getAll();
   const lecturaTest = await contenedorCarrito.getAll();
@@ -108,7 +121,10 @@ async function validateCarrito() {
 async function validateProducto() {
   await testProducto();
   const productoToCompare = new ContenedorProducto(
-    "./src/backend/persistence/persistence_test/productos_test_to_compare.json"
+    path.join(
+      __dirname,
+      "../src/backend/persistence/persistence_test/productos_test_to_compare.json"
+    )
   );
   const validLecture = await productoToCompare.getAll();
   const lecturaTest = await contenedorProducto.getAll();

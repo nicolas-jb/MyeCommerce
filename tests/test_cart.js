@@ -1,4 +1,4 @@
-import { Carrito } from "../src/backend/services/products.js";
+import { Carrito } from "../src/backend/services/carrito.js";
 
 const productoEscuadra = {
     nombre: "Escuadra",

@@ -1,11 +1,19 @@
 //This script is not a test itself but it serves as a first look to validate the operation
 
-import { ContenedorCarrito } from "../src/backend/services/products.js";
-import { Carrito } from "../src/backend/services/products.js";
-import { Producto } from "../src/backend/services/products.js";
+import { ContenedorCarrito } from "../src/backend/services/FS/contenedorFS.js";
+import { Carrito } from "../src/backend/services/carrito.js";
+import { Producto } from "../src/backend/services/producto.js";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const contenedorCarrito = new ContenedorCarrito(
-  "./src/backend/persistence/persistence_test/carritos_test_3.json"
+  path.join(
+    __dirname,
+    "../src/backend/persistence/persistence_test/carritos_test_3.json"
+  )
 );
 
 const productoEscuadra = new Producto(
@@ -36,7 +44,8 @@ const carrito2 = new Carrito();
 async function config() {
   await contenedorCarrito.deleteAll();
   carrito1.addProducts([productoCalculadora, productoEscuadra]);
-  carrito2.addProducts([productoEscuadra, 
+  carrito2.addProducts([
+    productoEscuadra,
     productoCalculadora,
     productoEscuadra,
   ]);

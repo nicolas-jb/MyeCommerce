@@ -1,12 +1,17 @@
 import { Router } from "express";
-import { ContenedorCarrito } from "../services/products.js";
-import { Carrito } from "../services/products.js";
+import { ContenedorCarrito } from "../services/FS/contenedorFS.js";
+import { Carrito } from "../services/carrito.js"
 import fetch from "node-fetch";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const routerCarrito = new Router();
 
 const contenedorCarrito = new ContenedorCarrito(
-  "./src/backend/persistence/carritos.json"
+  path.join(__dirname, "../persistence/carritos.json")
 );
 
 routerCarrito.get("/:id/productos", async (req, res) => {

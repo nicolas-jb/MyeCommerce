@@ -1,11 +1,16 @@
 import { Router } from "express";
-import { ContenedorProducto } from "../services/products.js";
-import { Producto } from "..//services/products.js";
+import { ContenedorProducto } from "../services/FS/contenedorFS.js";
+import { Producto } from "../services/producto.js";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const routerProductos = new Router();
 
 const contenedorProducto = new ContenedorProducto(
-  "./src/backend/persistence/productos.json"
+  path.join(__dirname, "../persistence/productos.json")
 );
 
 function errorAuth(ruta, method) {
@@ -36,9 +41,16 @@ routerProductos.get("/", async (req, res) => {
 });
 
 routerProductos.post("/", async (req, res) => {
-  const {nombre, descripcion, codigo, foto, precio, stock} = req.body;
-  const producto = new Producto(nombre, descripcion, codigo, foto, precio, stock);
-  const {user} = req.body;
+  const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
+  const producto = new Producto(
+    nombre,
+    descripcion,
+    codigo,
+    foto,
+    precio,
+    stock
+  );
+  const { user } = req.body;
   if (user === "admin") {
     const id = await contenedorProducto.save(producto);
     res.status(200).send(`Se agregó un nuevo producto cuyo id es ${id}`);
