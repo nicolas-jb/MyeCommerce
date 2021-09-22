@@ -38,5 +38,25 @@
     "foto": "urltest",
     "stock": 100,
     "id": 9
+  },
+  {
+    "nombre": "prueba",
+    "timestamp": 1632286031311,
+    "descripcion": "Es una prueba",
+    "codigo": 209,
+    "precio": 234.56,
+    "foto": "urltest",
+    "stock": 100,
+    "id": 10
+  },
+  {
+    "nombre": "prueba",
+    "timestamp": 1632286031495,
+    "descripcion": "Es una prueba",
+    "codigo": 209,
+    "precio": 234.56,
+    "foto": "urltest",
+    "stock": 100,
+    "id": 11
   }
 ]

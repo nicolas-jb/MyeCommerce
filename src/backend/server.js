@@ -21,6 +21,8 @@ let contenedorCarritoMongo;
 let contenedorProductoMongo;
 let contenedorCarritoFirebase;
 let contenedorProductoFirebase;
+let contenedorCarritoMemoria;
+let contenedorProductoMemoria;
 let contenedorCarritoActualizado;
 let contenedorProductoActualizado;
 
@@ -28,6 +30,7 @@ let contenedorProductoActualizado;
 let flagFS = true;
 let flagMongo = true;
 let flagFirebase = true;
+let flagMemoria = true;
 
 //persistence's modes
 const persistenceModes = {
@@ -35,8 +38,9 @@ const persistenceModes = {
     1: "FS",
     2: "MONGODB",
     3: "FIREBASE",
+    4: "Memoria",
   },
-  quantity: 3,
+  quantity: 4,
 };
 
 async function setPersistenceMode(mode) {
@@ -81,7 +85,7 @@ async function setPersistenceMode(mode) {
         const moduleContenedor = await import(
           "./services/Firebase/contenedorFirebase.js"
         );
-        const query = await import ("./services/Firebase/config.js")  
+        const query = await import("./services/Firebase/config.js");
         contenedorCarritoFirebase =
           new moduleContenedor.ContenedorCarritoFirebase(query.queryCarritos);
         contenedorProductoFirebase =
@@ -89,6 +93,22 @@ async function setPersistenceMode(mode) {
       }
       contenedorCarritoActualizado = contenedorCarritoFirebase;
       contenedorProductoActualizado = contenedorProductoFirebase;
+      break;
+    }
+    case 4: {
+      if (flagMemoria) {
+        flagMemoria = false;
+        const moduleContenedor = await import(
+          "./services/Memoria/contenedorMemoria.js"
+        );
+
+        contenedorCarritoMemoria =
+          new moduleContenedor.ContenedorCarritoMemoria([]);
+        contenedorProductoMemoria =
+          new moduleContenedor.ContenedorProductoMemoria([]);
+      }
+      contenedorCarritoActualizado = contenedorCarritoMemoria;
+      contenedorProductoActualizado = contenedorProductoMemoria;
       break;
     }
   }
