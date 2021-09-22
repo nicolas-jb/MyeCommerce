@@ -19,12 +19,14 @@
   },
   "homepage": "https://github.com/nicolas-jb/MyeCommerce#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.11.1",
+    "mongoose": "5.9",
     "node-emoji": "^1.11.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "babel-jest": "^27.1.0",
     "eslint": "^7.32.0",
     "jest": "^27.1.0",
     "nodemon": "^2.0.12"

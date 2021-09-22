@@ -52,7 +52,7 @@ routerProductos.post("/", async (req, res) => {
 
 routerProductos.put("/:id", async (req, res) => {
   const producto = req.body;
-  const id = Number(req.params.id);
+  const id = req.params.id;
   if (producto.user === "admin") {
     const flagModify = await contenedorProducto.modify(id, producto);
     if (flagModify == null) {

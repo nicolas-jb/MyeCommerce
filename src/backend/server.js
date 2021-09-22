@@ -1,9 +1,9 @@
-import express, { json, urlencoded } from "express";
+import express, { json, query, urlencoded } from "express";
 import emoji from "node-emoji";
 import { routerProductos } from "../backend/router/routes_products.js";
 import { routerCarrito } from "../backend/router/routes_carts.js";
-import { ContenedorCarrito } from "./services/FS/contenedorFS.js";
-import { ContenedorProducto } from "./services/FS/contenedorFS.js";
+import { ContenedorCarritoFS } from "./services/FS/contenedorFS.js";
+import { ContenedorProductoFS } from "./services/FS/contenedorFS.js";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -17,11 +17,17 @@ let contenedorCarrito;
 let contenedorProducto;
 let contenedorCarritoFS;
 let contenedorProductoFS;
-let contenedorCarritoActualizado
-let contenedorProductoActualizado
+let contenedorCarritoMongo;
+let contenedorProductoMongo;
+let contenedorCarritoFirebase;
+let contenedorProductoFirebase;
+let contenedorCarritoActualizado;
+let contenedorProductoActualizado;
 
-
+//mode flags - first time configuration
 let flagFS = true;
+let flagMongo = true;
+let flagFirebase = true;
 
 //persistence's modes
 const persistenceModes = {
@@ -29,27 +35,61 @@ const persistenceModes = {
     1: "FS",
     2: "MONGODB",
     3: "FIREBASE",
-    4: "MYSQL",
-    5: "SQLITE",
   },
-  quantity: 5,
+  quantity: 3,
 };
 
-function setPersistenceMode(mode) {
-  
+async function setPersistenceMode(mode) {
   switch (mode) {
     case 1: {
       if (flagFS) {
         flagFS = false;
-        contenedorCarritoFS = new ContenedorCarrito(
+        contenedorCarritoFS = new ContenedorCarritoFS(
           path.join(__dirname, "./persistence/persistence_FS/carritos.json")
         );
-        contenedorProductoFS = new ContenedorProducto(
+        contenedorProductoFS = new ContenedorProductoFS(
           path.join(__dirname, "./persistence/persistence_FS/productos.json")
         );
       }
       contenedorCarritoActualizado = contenedorCarritoFS;
       contenedorProductoActualizado = contenedorProductoFS;
+      break;
+    }
+    case 2: {
+      if (flagMongo) {
+        flagMongo = false;
+        const moduleContenedor = await import(
+          "./services/MongoDB/contenedorMongo.js"
+        );
+        const moduleSchema = await import(
+          "./persistence/persistence_MongoDB/models/model.js"
+        );
+        contenedorCarritoMongo = new moduleContenedor.ContenedorCarritoMongo(
+          moduleSchema.CarritoModel
+        );
+        contenedorProductoMongo = new moduleContenedor.ContenedorProductoMongo(
+          moduleSchema.ProductoModel
+        );
+      }
+      contenedorCarritoActualizado = contenedorCarritoMongo;
+      contenedorProductoActualizado = contenedorProductoMongo;
+      break;
+    }
+    case 3: {
+      if (flagFirebase) {
+        flagFirebase = false;
+        const moduleContenedor = await import(
+          "./services/Firebase/contenedorFirebase.js"
+        );
+        const query = await import ("./services/Firebase/config.js")  
+        contenedorCarritoFirebase =
+          new moduleContenedor.ContenedorCarritoFirebase(query.queryCarritos);
+        contenedorProductoFirebase =
+          new moduleContenedor.ContenedorProductoFirebase(query.queryProductos);
+      }
+      contenedorCarritoActualizado = contenedorCarritoFirebase;
+      contenedorProductoActualizado = contenedorProductoFirebase;
+      break;
     }
   }
 
@@ -68,12 +108,12 @@ app.use("/api/carrito", routerCarrito);
 
 export const PORT = 8080;
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
   let { idMode } = req.body;
   if (idMode > persistenceModes.quantity) {
     res.status(404).json({ error: "Mode not found" });
   } else {
-    setPersistenceMode(idMode);
+    await setPersistenceMode(idMode);
     res.status(200).json({
       mode: `Modo de persistencia de datos: ${persistenceModes.modes[idMode]}`,
     });

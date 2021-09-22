@@ -135,7 +135,7 @@ class Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorProducto extends Contenedor {
+class ContenedorProductoFS extends Contenedor {
   async save(product) {
     this.newElement = {
       nombre: product.nombre,
@@ -152,6 +152,7 @@ class ContenedorProducto extends Contenedor {
   }
 
   async modify(id, product) {
+    const savedId = Number(id);
     this.newElement = {
       nombre: product.nombre,
       timestamp: product.timestamp,
@@ -162,13 +163,13 @@ class ContenedorProducto extends Contenedor {
       stock: product.stock,
     };
 
-    return await super.modify(id);
+    return await super.modify(savedId);
   }
 }
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorCarrito extends Contenedor {
+class ContenedorCarritoFS extends Contenedor {
   async save(carrito) {
     this.newElement = {
       timestamp: carrito.timestamp,
@@ -221,7 +222,8 @@ class ContenedorCarrito extends Contenedor {
     return await super.modify(idCarrito);
   }
 
-  async deleteAProduct(idCarrito, idProducto) {
+  async deleteAProduct(idCarrito, id) {
+    const idProducto = Number(id);
     const carritoById = await this.getById(idCarrito);
     if (carritoById == null) {
       return null;
@@ -231,7 +233,7 @@ class ContenedorCarrito extends Contenedor {
     });
 
     if (actualProducts.length == carritoById.productos.length) {
-      return null
+      return null;
     }
 
     this.newElement = {
@@ -244,6 +246,5 @@ class ContenedorCarrito extends Contenedor {
 }
 
 export { Contenedor };
-export { ContenedorCarrito };
-export { ContenedorProducto };
-
+export { ContenedorCarritoFS };
+export { ContenedorProductoFS };

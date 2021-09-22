@@ -56,7 +56,7 @@ routerCarrito.delete("/:id", async (req, res) => {
 
 routerCarrito.delete("/:idCarrito/productos/:idProducto", async (req, res) => {
   const idCarrito = req.params.idCarrito;
-  const idProducto = Number(req.params.idProducto);
+  const idProducto = req.params.idProducto;
   const carrito = await contenedorCarrito.getById(idCarrito);
   const flagDelete = await contenedorCarrito.deleteAProduct(idCarrito, idProducto);
   if (carrito === undefined || carrito === null) {
