@@ -1,7 +1,7 @@
 import emoji from "node-emoji";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const serviceAccount = require('./myecommerce-8f717-firebase-adminsdk-5sbpo-f7628f1dea.json');
+const serviceAccount = require('./myecommerce-8f717-firebase-adminsdk-5sbpo-3dfaddc977.json');
 const admin = require("firebase-admin");
 
 admin.initializeApp({
