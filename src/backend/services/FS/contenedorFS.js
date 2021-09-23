@@ -66,13 +66,14 @@ class Contenedor {
 
   async modify(id) {
     try {
-      const erasedElement = await this.deleteById(id);
+      const correctedId = Number(id);
+      const erasedElement = await this.deleteById(correctedId);
       if (erasedElement == null) {
         return null;
       } else {
         const newProduct = {
           ...this.newElement,
-          id: id,
+          id: correctedId,
         };
 
         const savedElements = await this.getAll();
@@ -146,7 +147,6 @@ class ContenedorProductoFS extends Contenedor {
       foto: product.foto,
       stock: product.stock,
     };
-
     await super.save();
     return this.maxIdSaved;
   }
@@ -162,7 +162,6 @@ class ContenedorProductoFS extends Contenedor {
       foto: product.foto,
       stock: product.stock,
     };
-
     return await super.modify(savedId);
   }
 }

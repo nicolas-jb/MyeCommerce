@@ -1,69 +1,33 @@
 [
   {
-    "timestamp": 1630382727222,
+    "timestamp": 1632419665202,
+    "productos": [],
+    "id": 1
+  },
+  {
+    "timestamp": 1632419679666,
     "productos": [
       {
-        "nombre": "Escuadra",
-        "timestamp": 1630382727222,
-        "descripcion": "Es una escuadra",
-        "codigo": 1102,
-        "precio": 123.45,
-        "foto": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
-        "stock": 2,
-        "id": 6
-      },
-      {
-        "nombre": "Calculadora",
-        "timestamp": 1630382727222,
-        "descripcion": "Es una calculadora",
+        "nombre": "prueba",
+        "timestamp": 1632419580559,
+        "descripcion": "Es una prueba",
         "codigo": 209,
         "precio": 234.56,
-        "foto": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
+        "foto": "urltest",
         "stock": 100,
-        "id": 5
+        "id": 9
       },
       {
-        "nombre": "Escuadra",
-        "timestamp": 1630382727222,
-        "descripcion": "Es una escuadra",
-        "codigo": 1102,
-        "precio": 123.45,
-        "foto": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
-        "stock": 2,
-        "id": 7
+        "nombre": "prueba",
+        "timestamp": 1632419580559,
+        "descripcion": "Es una prueba",
+        "codigo": 209,
+        "precio": 234.56,
+        "foto": "urltest",
+        "stock": 100,
+        "id": 9
       }
     ],
     "id": 3
-  },
-  {
-    "timestamp": 1632281242338,
-    "productos": [],
-    "id": 5
-  },
-  {
-    "timestamp": 1630382727222,
-    "productos": [
-      {
-        "nombre": "Calculadora",
-        "timestamp": 1630382727222,
-        "descripcion": "Es una calculadora",
-        "codigo": 209,
-        "precio": 234.56,
-        "foto": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
-        "stock": 100,
-        "id": 5
-      },
-      {
-        "nombre": "Escuadra",
-        "timestamp": 1630382727222,
-        "descripcion": "Es una escuadra",
-        "codigo": 1102,
-        "precio": 123.45,
-        "foto": "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
-        "stock": 2,
-        "id": 7
-      }
-    ],
-    "id": "4"
   }
 ]

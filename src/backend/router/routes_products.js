@@ -51,9 +51,18 @@ routerProductos.post("/", async (req, res) => {
 });
 
 routerProductos.put("/:id", async (req, res) => {
-  const producto = req.body;
+  const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
+  const producto = new Producto(
+    nombre,
+    descripcion,
+    codigo,
+    foto,
+    precio,
+    stock
+  );
+  const { user } = req.body
   const id = req.params.id;
-  if (producto.user === "admin") {
+  if (user === "admin") {
     const flagModify = await contenedorProducto.modify(id, producto);
     if (flagModify == null) {
       res.status(404).json({ error: "Producto no encontrado" });

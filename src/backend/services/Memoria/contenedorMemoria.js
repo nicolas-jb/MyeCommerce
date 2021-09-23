@@ -20,7 +20,7 @@ class Contenedor {
           max = element.id;
         }
       });
-      id = max+1;
+      id = max + 1;
     }
     element.id = id;
     this.array.push(element);
@@ -39,13 +39,17 @@ class Contenedor {
   }
 
   modify(id, element) {
-    const correctedId = Number(id);
-    const timestamp = this.getById(correctedId).timestamp;
-    element.timestamp = timestamp;
-    element.id = correctedId;
-    this.deleteById(correctedId);
-    this.array.push(element);
-    return true;
+    try {
+      const correctedId = Number(id);
+      const timestamp = this.getById(correctedId).timestamp;
+      element.timestamp = timestamp;
+      element.id = correctedId;
+      this.deleteById(correctedId);
+      this.array.push(element);
+      return true;
+    } catch (error) {
+      return null;
+    }
   }
 
   deleteAll() {
