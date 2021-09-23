@@ -173,7 +173,7 @@ class ContenedorCarritoFirebase extends Contenedor {
       await this.modify(idCarrito, cart);
       return true;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 }

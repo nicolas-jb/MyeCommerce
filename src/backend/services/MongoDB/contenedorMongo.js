@@ -157,7 +157,7 @@ class ContenedorCarritoMongo extends Contenedor {
       );
       return true;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 }
