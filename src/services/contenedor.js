@@ -1,4 +1,4 @@
-import "../MongoDB/configdb.js";
+import "../configdb.js"
 
 class Contenedor {
   constructor(schema) {

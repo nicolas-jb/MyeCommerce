@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Carrito } from "../services/carrito.js"
 import fetch from "node-fetch";
-import {contenedorCarrito} from "../../backend/server.js"
+import {contenedorCarrito} from "../server.js"
 
 const routerCarrito = new Router();
 
