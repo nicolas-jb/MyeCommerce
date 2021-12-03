@@ -1,5 +1,4 @@
 import "../MongoDB/configdb.js";
-//import { ObjectId } from 'mongodb';
 
 class Contenedor {
   constructor(schema) {
@@ -62,7 +61,7 @@ class Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorProductoMongo extends Contenedor {
+class ContenedorProducto extends Contenedor {
   async modify(id, element) {
     try {
       const response = await this.schema.updateOne(
@@ -90,7 +89,7 @@ class ContenedorProductoMongo extends Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorCarritoMongo extends Contenedor {
+class ContenedorCarrito extends Contenedor {
   async getProducts(idCarrito) {
     try {
       const cart = await this.schema.findOne({ _id: idCarrito });
@@ -162,5 +161,5 @@ class ContenedorCarritoMongo extends Contenedor {
   }
 }
 
-export { ContenedorCarritoMongo };
-export { ContenedorProductoMongo };
+export { ContenedorCarrito };
+export { ContenedorProducto };
