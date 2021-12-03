@@ -1,8 +1,8 @@
 import express, { json, query, urlencoded } from "express";
 import emoji from "node-emoji";
-import { routerProductos } from "./routers/routes_products.js";
-import { routerCarrito } from "./routers/routes_carts.js";
-import {  ContenedorCarrito, ContenedorProducto } from "./services/contenedor.js";
+import { routerProductos } from "./routers/product.route.js";
+import { routerCarrito } from "./routers/cart.route.js";
+import {  ContenedorCarrito, ContenedorProducto } from "./services/container.js";
 import { CarritoModel, ProductoModel } from "./models/model.js";
 
 const app = express();
