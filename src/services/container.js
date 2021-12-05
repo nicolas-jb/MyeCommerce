@@ -1,4 +1,4 @@
-import "../configdb.js"
+import "../configdb.js";
 
 class Contenedor {
   constructor(schema) {
@@ -89,7 +89,7 @@ class ContenedorProducto extends Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorCarrito extends Contenedor {
+/*class ContenedorCarrito extends Contenedor {
   async getProducts(idCarrito) {
     try {
       const cart = await this.schema.findOne({ _id: idCarrito });
@@ -159,7 +159,50 @@ class ContenedorCarrito extends Contenedor {
       return null;
     }
   }
+}*/
+
+/* -------------------------------------------------------------------------- */
+
+class ContenedorUsuario extends Contenedor {
+  async getByEmail(email) {
+    try {
+      const element = await this.schema.findOne({ username: email });
+      if (element == undefined) {
+        return null;
+      }
+      return element;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  /*async modify(id, element) {
+    try {
+      const response = await this.schema.updateOne(
+        { _id: id },
+        {
+          nombre: element.nombre,
+          descripcion: element.descripcion,
+          codigo: element.codigo,
+          precio: element.precio,
+          foto: element.foto,
+          stock: element.stock,
+        }
+      );
+
+      if (response.ok == 0) {
+        return null;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      return null;
+    }
+  }*/
 }
 
-export { ContenedorCarrito };
+/* -------------------------------------------------------------------------- */
+
+//export { ContenedorCarrito };
 export { ContenedorProducto };
+export { ContenedorUsuario };

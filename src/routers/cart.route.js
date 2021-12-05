@@ -1,4 +1,4 @@
-import { Router } from "express";
+/*import { Router } from "express";
 import { Carrito } from "../services/cart.js"
 import fetch from "node-fetch";
 import {contenedorCarrito} from "../server.js"
@@ -70,4 +70,4 @@ routerCarrito.delete("/:idCarrito/productos/:idProducto", async (req, res) => {
   }
 });
 
-export { routerCarrito };
+export { routerCarrito };*/
