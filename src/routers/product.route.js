@@ -6,7 +6,7 @@ const routerProductos = new Router();
 
 routerProductos.use(AuthMiddleware.checkAuthentication)
 
-routerProductos.get("/:id", AuthController.getAProduct); //PONER LA VALIDACION QUE SOLO LO PUEDE VER EL ADMIN
+routerProductos.get("/:id", AuthController.getAProduct); 
 routerProductos.get("/", AuthController.getProducts);
 routerProductos.post("/", AuthController.postProduct);
 routerProductos.put("/:id", AuthController.putProduct);

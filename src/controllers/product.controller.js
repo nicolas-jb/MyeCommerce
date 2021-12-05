@@ -22,18 +22,22 @@ export async function getProducts(req, res) {
 }
 
 export async function postProduct(req, res) {
-  const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
-  const producto = new Producto(
-    nombre,
-    descripcion,
-    codigo,
-    foto,
-    precio,
-    stock
-  );
+  try {
+    const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
+    const producto = new Producto(
+      nombre,
+      descripcion,
+      codigo,
+      foto,
+      precio,
+      stock
+    );
 
-  const id = await contenedorProducto.save(producto);
-  res.status(200).send(`Se agregó un nuevo producto cuyo id es ${id}`);
+    const id = await contenedorProducto.save(producto);
+    res.status(200).send(`Se agregó un nuevo producto cuyo id es ${id}`);
+  } catch (error) {
+    res.status(500).json({ error: "Se ha producido un error" });
+  }
 }
 
 export async function putProduct(req, res) {

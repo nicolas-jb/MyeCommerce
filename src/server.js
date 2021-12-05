@@ -33,7 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api/productos", routerProductos);
-app.use("/user", routerUsuario);
+app.use("/api/user", routerUsuario);
 //app.use("/api/carrito", routerCarrito);
 
 export const PORT = process.env.PORT || 8080;

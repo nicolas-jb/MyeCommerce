@@ -17,4 +17,3 @@ export function checkAuthentication(req, res, next) {
   }
 }
 
-//import * as AuthMiddleware from '../middlewares/auth.middleware.js'

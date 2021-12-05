@@ -176,17 +176,12 @@ class ContenedorUsuario extends Contenedor {
     }
   }
 
-  /*async modify(id, element) {
+  async modify(id, element) {
     try {
       const response = await this.schema.updateOne(
         { _id: id },
         {
-          nombre: element.nombre,
-          descripcion: element.descripcion,
-          codigo: element.codigo,
-          precio: element.precio,
-          foto: element.foto,
-          stock: element.stock,
+          compras: element.compras
         }
       );
 
@@ -198,7 +193,7 @@ class ContenedorUsuario extends Contenedor {
     } catch (e) {
       return null;
     }
-  }*/
+  }
 }
 
 /* -------------------------------------------------------------------------- */
