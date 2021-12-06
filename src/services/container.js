@@ -89,80 +89,6 @@ class ContenedorProducto extends Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-/*class ContenedorCarrito extends Contenedor {
-  async getProducts(idCarrito) {
-    try {
-      const cart = await this.schema.findOne({ _id: idCarrito });
-      if (cart === null) {
-        return null;
-      }
-      return cart.productos;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  async deleteProducts(idCarrito) {
-    try {
-      await this.schema.updateOne(
-        { _id: idCarrito },
-        {
-          productos: [],
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async addProducts(idCarrito, producto) {
-    try {
-      let actualProducts = await this.schema.findOne(
-        { _id: idCarrito },
-        { productos: true }
-      );
-      actualProducts = actualProducts.productos;
-      await this.schema.updateOne(
-        { _id: idCarrito },
-        {
-          productos: actualProducts.concat(producto),
-        }
-      );
-    } catch (error) {
-      return null;
-    }
-  }
-
-  async deleteAProduct(idCarrito, idProducto) {
-    try {
-      let savedProducts = await this.schema.findOne(
-        { _id: idCarrito },
-        { productos: true }
-      );
-      savedProducts = savedProducts.productos;
-
-      const actualProducts = savedProducts.filter(function (pid) {
-        return pid._id != idProducto;
-      });
-
-      if (actualProducts.length == savedProducts.length) {
-        return null;
-      }
-      await this.schema.updateOne(
-        { _id: idCarrito },
-        {
-          productos: actualProducts,
-        }
-      );
-      return true;
-    } catch (error) {
-      return null;
-    }
-  }
-}*/
-
-/* -------------------------------------------------------------------------- */
-
 class ContenedorUsuario extends Contenedor {
   async getByEmail(email) {
     try {
@@ -198,6 +124,5 @@ class ContenedorUsuario extends Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-//export { ContenedorCarrito };
 export { ContenedorProducto };
 export { ContenedorUsuario };

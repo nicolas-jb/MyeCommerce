@@ -70,8 +70,6 @@ passport.serializeUser(async (user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  /*const user= await contenedorUsuario.getById(id);
-  done(err, user);*/
   UserModel.findById(id, done)
 });
 
