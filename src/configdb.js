@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import emoji from "node-emoji";
+import log4js from "./utils/logger.utils.js"
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, './.env') });
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
+
+const loggerConsole = log4js.getLogger();
+const loggerError = log4js.getLogger("errorFile");
 
 mongoose.connect(
   process.env.MONGOURI,
@@ -16,9 +20,10 @@ mongoose.connect(
   },
   (err) => {
     if (err) {
-      console.error(err);
+      loggerError.error(err);
+      loggerConsole.error(err);
     } else {
-      console.log(emoji.get("evergreen_tree"), " Conectado a MongoDB!");
+      loggerConsole.info(emoji.get("evergreen_tree"), " Conectado a MongoDB!");
     }
   }
 );

@@ -4,6 +4,10 @@ import passport from "passport";
 import { UserModel } from "../models/model.js";
 import { User } from "../services/user.js";
 import { contenedorUsuario } from "../server.js";
+import log4js from "../utils/logger.utils.js";
+
+const loggerConsole = log4js.getLogger();
+const loggerError = log4js.getLogger("errorFile");
 
 function isValidPassword(user, password) {
   return bcrypt.compareSync(password, user.password);
@@ -14,13 +18,16 @@ passport.use(
   new Strategy(async (username, password, done) => {
     const user = await contenedorUsuario.getByEmail(username);
     if (!user) {
-      console.log("Usuario no encontrado!");
+      loggerConsole.error("Error Login");
+      loggerError.error("Error Login - Usuario no encontrado");
       return done(null, false);
     }
     if (!isValidPassword(user, password)) {
-      console.log("Invalid password");
+      loggerConsole.error("Error Login");
+      loggerError.error("Error Login - Contraseña Inválida");
       return done(null, false);
     }
+    loggerConsole.info(`Usuario: ${user.username} logueado`);
     return done(null, user);
   })
 );
@@ -39,7 +46,8 @@ passport.use(
       try {
         let user = await contenedorUsuario.getByEmail(username);
         if (user) {
-          console.log("El usuario existe!");
+          loggerConsole.error("Error SignUp");
+          loggerError.error("Error SignUp - Usuario existente");
           return done(null, false);
         }
 
@@ -54,9 +62,9 @@ passport.use(
         );
 
         await contenedorUsuario.save(newUser);
-        user = await contenedorUsuario.getByEmail(username);  
+        user = await contenedorUsuario.getByEmail(username);
 
-        console.log("Usuario creado");
+        loggerConsole.info(`Usuario: ${user.username} registrado`);
         return done(null, user);
       } catch (err) {
         done(err);
@@ -70,7 +78,7 @@ passport.serializeUser(async (user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  UserModel.findById(id, done)
+  UserModel.findById(id, done);
 });
 
 export default passport;

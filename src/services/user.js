@@ -1,4 +1,8 @@
 import { Carrito } from "../services/cart.js";
+import log4js from "../utils/logger.utils.js";
+
+const loggerConsole = log4js.getLogger();
+const loggerError = log4js.getLogger("errorFile");
 
 export class User {
   constructor(username, password, nombre, direccion, edad, phone, avatar) {
@@ -45,6 +49,9 @@ export class User {
       this.compras.push(this.cart);
       this.cart = new Carrito();
     } else {
+      const mjeLog = "Error Compra - No hay productos en el carrito"
+      loggerConsole.error(mjeLog);
+      loggerError.error(mjeLog);
       throw new Error("No hay productos en el carrito")
     }
   }

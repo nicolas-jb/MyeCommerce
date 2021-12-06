@@ -1,4 +1,8 @@
 import "../configdb.js";
+import log4js from "../utils/logger.utils.js";
+
+const loggerConsole = log4js.getLogger();
+const loggerError = log4js.getLogger("errorFile");
 
 class Contenedor {
   constructor(schema) {
@@ -18,7 +22,8 @@ class Contenedor {
       const savedElement = await this.schema.create(element);
       return savedElement._id.toString();
     } catch (error) {
-      console.log(error);
+      loggerConsole.error(error);
+      loggerError.error(error);
       throw new Error(error);
     }
   }
@@ -40,7 +45,9 @@ class Contenedor {
   async deleteAll() {
     try {
       await this.schema.deleteMany();
-    } catch (e) {
+    } catch (error) {
+      loggerConsole.error(error);
+      loggerError.error(error);
       throw new Error();
     }
   }
@@ -107,7 +114,7 @@ class ContenedorUsuario extends Contenedor {
       const response = await this.schema.updateOne(
         { _id: id },
         {
-          compras: element.compras
+          compras: element.compras,
         }
       );
 

@@ -6,6 +6,7 @@ import { routerUsuario } from "./routers/user.route.js";
 import { ContenedorProducto, ContenedorUsuario } from "./services/container.js";
 import { ProductoModel, UserModel } from "./models/model.js";
 import passport from './utils/passport.utils.js'
+import log4js from "./utils/logger.utils.js"
 
 const app = express();
 
@@ -34,18 +35,24 @@ app.use(passport.session());
 app.use("/api/productos", routerProductos);
 app.use("/api/user", routerUsuario);
 
+const loggerConsole = log4js.getLogger();
+const loggerError = log4js.getLogger("errorFile");
+
 
 export const PORT = process.env.PORT || 8080;
 
 app.use((req, res) => {
+  const mensaje = `Ruta ${req.url} - Método ${req.method} no implementado`
+  loggerConsole.error(mensaje)
+  loggerError.error(mensaje)
   res.status(404).json({
     error: -2,
-    descripción: `ruta ${req.url} método ${req.method} no implementado`,
+    descripción: mensaje,
   });
 });
 
 app.listen(PORT, () => {
-  console.log(emoji.get("computer"), "Server on " + PORT);
+  loggerConsole.info(emoji.get("computer"), "Server on " + PORT)
 });
 
 
