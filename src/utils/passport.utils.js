@@ -5,6 +5,14 @@ import { UserModel } from "../models/model.js";
 import { User } from "../services/user.js";
 import { contenedorUsuario } from "../server.js";
 import log4js from "../utils/logger.utils.js";
+import dotenv from "dotenv";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+import { envioMail, armarCuerpoMailRegistro } from "../utils/mailer.utils.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const loggerConsole = log4js.getLogger();
 const loggerError = log4js.getLogger("errorFile");
@@ -63,6 +71,8 @@ passport.use(
 
         await contenedorUsuario.save(newUser);
         user = await contenedorUsuario.getByEmail(username);
+
+        envioMail(process.env.MAIL_ADMIN, "Nuevo Registro", armarCuerpoMailRegistro(user));
 
         loggerConsole.info(`Usuario: ${user.username} registrado`);
         return done(null, user);
