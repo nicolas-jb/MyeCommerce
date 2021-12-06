@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "firebase-admin": "^9.11.1",
+    "log4js": "^6.3.0",
     "mongoose": "5.9",
     "node-emoji": "^1.11.0",
     "node-fetch": "^2.6.1",
