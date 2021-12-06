@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { envioMail, armarCuerpoMailCompra } from "../utils/mailer.utils.js";
+import { envioMje } from "../utils/twilio.utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -99,7 +100,14 @@ export async function postPurchase(req, res) {
     user.purchase();
     await contenedorUsuario.modify(req.user._id, user);
     loggerConsole.info(`Ruta ${req.url} - Método ${req.method}`);
-    envioMail(process.env.MAIL_ADMIN, `Nuevo pedido de ${user.nombre} (${user.username})`, armarCuerpoMailCompra(compra));
+    const asunto = `Nuevo pedido de ${user.nombre} (${user.username})`
+    envioMail(
+      process.env.MAIL_ADMIN,
+      asunto,
+      armarCuerpoMailCompra(compra)
+    );
+    envioMje(process.env.SMS_FROM, user.phone, "Su pedido ha sido recibido y se encuentra en proceso!")
+    envioMje(process.env.WP_FROM, process.env.WP_TO, asunto)
     res.status(200).send("Compra realizada!");
   } catch (err) {
     if (err.message == "No hay productos en el carrito") {
