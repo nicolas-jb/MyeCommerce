@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tests": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon --inspect ./src/backend/server"
+    "server": "nodemon --inspect ./src/server"
   },
   "repository": {
     "type": "git",
