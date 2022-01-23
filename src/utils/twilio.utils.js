@@ -44,6 +44,6 @@ export async function envioMje(remitente, destinatario, cuerpo) {
     loggerConsole.error(
       "Se ha producido un error al intentar enviar el mensaje"
     );
-    loggerError.error("Se ha producido un error al intentar enviar el mensaje");
+    loggerError.error(error.message);
   }
 }
