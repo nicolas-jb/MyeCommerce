@@ -1,5 +1,5 @@
-import { contenedorUsuario } from "../server.js";
-import { contenedorProducto } from "../server.js";
+import { daoUsuarios } from "../server.js";
+import { daoProductos } from "../server.js";
 import { User } from "../services/user.js";
 import log4js from "../utils/logger.utils.js";
 import dotenv from "dotenv";
@@ -59,7 +59,7 @@ export function getProducts(req, res) {
 
 export async function postAProduct(req, res) {
   const idProducto = req.params.id || req.query.id;
-  const producto = await contenedorProducto.getById(idProducto);
+  const producto = await daoProductos.getById(idProducto);
   if (producto === undefined || producto === null) {
     const mjeLog = "No se encontró el producto";
     loggerConsole.error(mjeLog);
@@ -98,7 +98,7 @@ export async function postPurchase(req, res) {
   try {
     const compra = user.getProducts();
     user.purchase();
-    await contenedorUsuario.modify(req.user._id, user);
+    await daoUsuarios.modify(req.user._id, user);
     loggerConsole.info(`Ruta ${req.url} - Método ${req.method}`);
     const asunto = `Nuevo pedido de ${user.nombre} (${user.username})`
     envioMail(

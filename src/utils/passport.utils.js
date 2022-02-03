@@ -3,7 +3,7 @@ import { Strategy } from "passport-local";
 import passport from "passport";
 import { UserModel } from "../models/model.js";
 import { User } from "../services/user.js";
-import { contenedorUsuario } from "../server.js";
+import { daoUsuarios } from "../server.js";
 import log4js from "../utils/logger.utils.js";
 import dotenv from "dotenv";
 import path, { dirname } from "path";
@@ -24,7 +24,7 @@ function isValidPassword(user, password) {
 passport.use(
   "login",
   new Strategy(async (username, password, done) => {
-    const user = await contenedorUsuario.getByEmail(username);
+    const user = await daoUsuarios.getByEmail(username);
     if (!user) {
       loggerConsole.error("Error Login");
       loggerError.error("Error Login - Usuario no encontrado");
@@ -52,7 +52,7 @@ passport.use(
     },
     async (req, username, password, done) => {
       try {
-        let user = await contenedorUsuario.getByEmail(username);
+        let user = await daoUsuarios.getByEmail(username);
         if (user) {
           loggerConsole.error("Error SignUp");
           loggerError.error("Error SignUp - Usuario existente");
@@ -69,8 +69,8 @@ passport.use(
           req.body.avatar
         );
 
-        await contenedorUsuario.save(newUser);
-        user = await contenedorUsuario.getByEmail(username);
+        await daoUsuarios.save(newUser);
+        user = await daoUsuarios.getByEmail(username);
 
         envioMail(process.env.MAIL_ADMIN, "Nuevo Registro", armarCuerpoMailRegistro(user));
 

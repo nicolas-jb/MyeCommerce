@@ -3,16 +3,15 @@ import emoji from "node-emoji";
 import session from 'express-session'
 import { routerProductos } from "./routers/product.route.js";
 import { routerUsuario } from "./routers/user.route.js";
-import { ContenedorProducto, ContenedorUsuario } from "./services/container.js";
-import { ProductoModel, UserModel } from "./models/model.js";
+import { ProductoDAOFactory, UserDAOFactory } from "./databases/DAOFactory.js";
 import passport from './utils/passport.utils.js'
 import log4js from "./utils/logger.utils.js"
 
 const app = express();
 
 
-const contenedorProducto = new ContenedorProducto(ProductoModel);
-const contenedorUsuario = new ContenedorUsuario(UserModel);
+const daoProductos = new ProductoDAOFactory().getDao();
+const daoUsuarios = new UserDAOFactory().getDao();
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -56,5 +55,5 @@ app.listen(PORT, () => {
 });
 
 
-export { contenedorProducto };
-export { contenedorUsuario };
+export { daoProductos };
+export { daoUsuarios };

@@ -5,12 +5,10 @@ import * as AuthMiddleware from '../middlewares/user.middlewares.js'
 
 const routerUsuario = new Router();
 
-//routerUsuario.get('/login',AuthController.getLogin)  //Los dejo comentados para que cuando se haga el front, en este método renderizo la pantalla correspondiente
 routerUsuario.post('/login', passport.authenticate('login',{failureRedirect:'/api/user/failLogin'}),AuthController.getUser)
 routerUsuario.get('/failLogin', AuthController.getFailLogin)
 routerUsuario.post('/failLogin', AuthController.getFailLogin)
 
-//routerUsuario.get('/signup',AuthController.getSignup) //Los dejo comentados para que cuando se haga el front, en este método renderizo la pantalla correspondiente
 routerUsuario.post('/signup',passport.authenticate('signup',{failureRedirect:'/api/user/failSignup'}),AuthController.getUser)
 routerUsuario.get('/failSignup', AuthController.getFailSignup)
 routerUsuario.post('/failSignup', AuthController.getFailSignup)

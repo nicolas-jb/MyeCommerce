@@ -1,12 +1,48 @@
-import "../configdb.js";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import emoji from "node-emoji";
 import log4js from "../utils/logger.utils.js";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 const loggerConsole = log4js.getLogger();
 const loggerError = log4js.getLogger("errorFile");
 
-class Contenedor {
+let MONGOURI;
+
+class DAODB {
   constructor(schema) {
     this.schema = schema;
+  }
+
+  async init() {
+    if (process.env.NODE_ENV === "production") {
+      MONGOURI = process.env.MONGOURI_PRD;
+    } else {
+      MONGOURI = process.env.MONGOURI_DEV;
+    }
+    await mongoose.connect(
+      MONGOURI,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+      (err) => {
+        if (err) {
+          loggerError.error(err);
+          loggerConsole.error(err);
+        } else {
+          loggerConsole.info(
+            emoji.get("evergreen_tree"),
+            ` Conectado a MongoDB! - Model ${this.schema.modelName}`
+          );
+        }
+      }
+    );
   }
 
   async getAll() {
@@ -68,7 +104,7 @@ class Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorProducto extends Contenedor {
+class DAOProductoDB extends DAODB {
   async modify(id, element) {
     try {
       const response = await this.schema.updateOne(
@@ -96,7 +132,7 @@ class ContenedorProducto extends Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-class ContenedorUsuario extends Contenedor {
+class DAOUsuarioDB extends DAODB {
   async getByEmail(email) {
     try {
       const element = await this.schema.findOne({ username: email });
@@ -131,5 +167,5 @@ class ContenedorUsuario extends Contenedor {
 
 /* -------------------------------------------------------------------------- */
 
-export { ContenedorProducto };
-export { ContenedorUsuario };
+export { DAOProductoDB };
+export { DAOUsuarioDB };

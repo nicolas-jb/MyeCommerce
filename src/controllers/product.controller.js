@@ -1,13 +1,14 @@
-import { contenedorProducto } from "../server.js";
+import { daoProductos } from "../server.js";
 import { Producto } from "../services/product.js";
 import log4js from "../utils/logger.utils.js";
 
 const loggerConsole = log4js.getLogger();
 const loggerError = log4js.getLogger("errorFile");
 
+
 export async function getAProduct(req, res) {
   const id = req.params.id;
-  const producto = await contenedorProducto.getById(id);
+  const producto = await daoProductos.getById(id);
   if (producto === undefined || producto === null) {
     const mjeLog = "No se encontró el producto"
     loggerConsole.error(mjeLog);
@@ -22,7 +23,7 @@ export async function getAProduct(req, res) {
 export async function getProducts(req, res) {
   const { id } = req.query;
   if (id === null || id === undefined) {
-    const productos = await contenedorProducto.getAll();
+    const productos = await daoProductos.getAll();
     loggerConsole.info(`Ruta ${req.url} - Método ${req.method}`)
     res.status(200).json(productos);
   } else {
@@ -42,7 +43,7 @@ export async function postProduct(req, res) {
       stock
     );
 
-    const id = await contenedorProducto.save(producto);
+    const id = await daoProductos.save(producto);
     loggerConsole.info(`Ruta ${req.url} - Método ${req.method}`)
     res.status(200).send(`Se agregó un nuevo producto cuyo id es ${id}`);
   } catch (error) {
@@ -66,7 +67,7 @@ export async function putProduct(req, res) {
 
   const id = req.params.id;
 
-  const flagModify = await contenedorProducto.modify(id, producto);
+  const flagModify = await daoProductos.modify(id, producto);
   if (flagModify == null) {
     const mjeLog = "No se encontró el producto"
     loggerConsole.error(mjeLog);
@@ -79,7 +80,7 @@ export async function putProduct(req, res) {
 }
 
 export async function deleteProduct(req, res) {
-  const flagDelete = await contenedorProducto.deleteById(req.params.id);
+  const flagDelete = await daoProductos.deleteById(req.params.id);
   if (flagDelete != null) {
     loggerConsole.info(`Ruta ${req.url} - Método ${req.method}`)
     res
