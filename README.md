@@ -1,7 +1,7 @@
 # MyeCommerce
 Final project of the backend programming course - coderhouse -> MyeCommerce
 
-The E-Commerce Backend is a REST API for an internet retail website. The API is built onto an Express.js server that uses moongose to interact with a MongoDB database. 
+The E-Commerce Backend is a REST API for an internet retail website. The API is built onto an **Express.js** server that uses moongose to interact with a **MongoDB** database. 
 
 This backend has API routes pointing to each of the standard [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations for products and has log in and sign up routes for the users.
 To be able to obtain / create / modify / delete products you must log in as "admin".
